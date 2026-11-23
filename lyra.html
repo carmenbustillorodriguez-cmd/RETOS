@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Retos · Lyra</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lengua · Lyra</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 <style>
 :root{--bg:#f6f7fb;--surface:#fff;--fg:#1b1f3a;--muted:#5a6080;--line:#e1e4f0;--accent:#be123c;--on:#fff;--display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;--body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif}
 @media (prefers-color-scheme:dark){:root{--bg:#11131f;--surface:#1b1e2e;--fg:#eef0fa;--muted:#a3a8c3;--line:#2c3046;--accent:#fb7185;--on:#11131f;color-scheme:dark}}
@@ -24,11 +24,12 @@ a.g:hover{border-color:var(--accent)}
 .rt small{display:block;font-family:var(--body);font-weight:400;font-size:14px;opacity:.92}
 .mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.mini a{font-size:13px;font-weight:700;padding:5px 10px;border-radius:10px;border:2px solid var(--line);color:var(--fg);text-decoration:none;background:var(--surface)}
 footer{color:var(--muted);font-size:13px}
-</style></head><body><main class="wrap"><header><span class="tag">🌙 Lyra</span><h1>Mis retos</h1><p class="lead">Retos de lógica, comunicación y trabajo en equipo. Empieza por los recomendados o por el que te diga tu profe.</p></header><ol class="how"><li>Elige un reto.</li><li>Escribe tu nombre y tus apellidos.</li><li>Al terminar, pulsa «Copiar resultado» y pégalo en la tarea de Classroom.</li></ol>
+</style></head><body><main class="wrap"><header><span class="tag">🌙 Lyra</span><h1>Lengua</h1><p class="lead">Retos de Lengua de 1.º ESO. Haz el que te diga tu profe.</p></header><ol class="how"><li>Elige un reto.</li><li>Escribe tu nombre y tus apellidos.</li><li>Al terminar, pulsa «Copiar resultado» y pégalo en la tarea de Classroom.</li></ol>
 <div id="lista"></div><footer>IES La Atalaya · 1.º ESO · En todos los juegos puedes pedir una pausa con el semáforo 🚦</footer></main>
 <script src="catalogo.js"></script><script>
 try{sessionStorage.setItem("retosPagina","lyra")}catch(e){}
-const g2=CATALOGO.filter(j=>j.grupo===2);const rec=g2.filter(j=>(j.para||[]).includes("lyra"));const mas=g2.filter(j=>!(j.para||[]).includes("lyra"));
-const ul=l=>'<ul class="list">'+l.map(j=>`<li><a class="g" href="${j.archivo}"><span class="em">${j.emoji}</span><span class="tx"><span class="k">${j.tema}</span><span class="t">${j.titulo}</span></span><span class="go">Jugar →</span></a></li>`).join("")+'</ul>';
-document.getElementById("lista").innerHTML=(rec.length?'<h2>⭐ Recomendados para ti</h2>'+ul(rec):'')+(mas.length?'<h2>Más retos</h2>'+ul(mas):'');
+const RUTA={orion:2,vega:2,sirio:2,lyra:1,nova:1}["lyra"];
+const esRec=j=>(j.para||[]).includes("lyra");
+const l=CATALOGO.filter(j=>j.grupo===2&&j.area==="Lengua");const ord=[...l.filter(esRec),...l.filter(j=>!esRec(j))];
+document.getElementById("lista").innerHTML='<ul class="list">'+ord.map(j=>`<li><a class="g" href="${j.archivo}${j.porRuta?'?ruta='+RUTA:''}"><span class="em">${j.emoji}</span><span class="tx"><span class="k">${esRec(j)?'⭐ Recomendado · ':''}${j.tema}</span><span class="t">${j.titulo}</span></span><span class="go">Jugar →</span></a></li>`).join("")+'</ul>';
 </script></body></html>

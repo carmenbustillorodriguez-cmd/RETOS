@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Retos · Ruta Azul</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Retos · Ruta Azul</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 <style>
 :root{--bg:#f6f7fb;--surface:#fff;--fg:#1b1f3a;--muted:#5a6080;--line:#e1e4f0;--accent:#1d4ed8;--on:#fff;--display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;--body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif}
 @media (prefers-color-scheme:dark){:root{--bg:#11131f;--surface:#1b1e2e;--fg:#eef0fa;--muted:#a3a8c3;--line:#2c3046;--accent:#60a5fa;--on:#11131f;color-scheme:dark}}
@@ -16,20 +15,17 @@ h2{font-family:var(--display);font-size:22px;margin:8px 0 0}
 @media (max-width:520px){.how{grid-template-columns:1fr}}
 .list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .g{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-radius:18px;color:inherit;text-decoration:none}
-.g:hover{border-color:var(--accent)}
+a.g:hover{border-color:var(--accent)}
 .em{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:28px;background:var(--bg)}
-.tx{flex:1;min-width:0;display:grid}.k{font-size:13px;color:var(--muted)}.t{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.2}
+.tx{flex:1;min-width:0;display:grid;gap:2px}.k{font-size:13px;color:var(--muted)}.t{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.2}
 .go{font-weight:700;color:var(--accent);font-size:15px}@media (max-width:420px){.go{display:none}}
-.routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}@media (max-width:520px){.routes{grid-template-columns:1fr}}
-.rt{display:block;padding:16px;border-radius:18px;color:#fff;text-decoration:none;font-family:var(--display);font-weight:800;font-size:22px}
-.rt small{display:block;font-family:var(--body);font-weight:400;font-size:14px;opacity:.9}
-.mini{display:flex;gap:6px;flex-wrap:wrap}.mini a{font-size:13px;font-weight:700;padding:5px 10px;border-radius:10px;border:2px solid var(--line);color:var(--fg);text-decoration:none;background:var(--surface)}
+.routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.rt{display:block;padding:14px 16px;border-radius:18px;color:#fff;text-decoration:none;font-family:var(--display);font-weight:800;font-size:21px}
+.rt small{display:block;font-family:var(--body);font-weight:400;font-size:14px;opacity:.92}
+.mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.mini a{font-size:13px;font-weight:700;padding:5px 10px;border-radius:10px;border:2px solid var(--line);color:var(--fg);text-decoration:none;background:var(--surface)}
 footer{color:var(--muted);font-size:13px}
-</style></head><body>
-<main class="wrap"><header><span class="tag">🔵 Ruta Azul</span><h1>Mis retos</h1><p class="lead">Haz el reto que te diga tu profe, o todos si te animas.</p></header>
-<ol class="how"><li>Elige un reto.</li><li>Escribe tu nombre y tus apellidos.</li><li>Al terminar, pulsa «Copiar resultado» y pégalo en la tarea de Classroom.</li></ol>
-<div id="lista"></div><footer>IES La Atalaya · 1.º ESO</footer></main>
+</style></head><body><main class="wrap"><header><span class="tag">🔵 Ruta Azul</span><h1>Mis retos</h1><p class="lead">Haz el reto que te diga tu profe, o todos si te animas.</p></header><ol class="how"><li>Elige un reto.</li><li>Escribe tu nombre y tus apellidos.</li><li>Al terminar, pulsa «Copiar resultado» y pégalo en la tarea de Classroom.</li></ol><div id="lista"></div><footer>IES La Atalaya · 1.º ESO</footer></main>
 <script src="catalogo.js"></script><script>
-const areas=[...new Set(CATALOGO.map(j=>j.area))];
-document.getElementById("lista").innerHTML=areas.map(a=>`<h2>${a}</h2><ul class="list">`+CATALOGO.filter(j=>j.area===a).map(j=>`<li><a class="g" href="${j.archivo}?ruta=2"><span class="em">${j.emoji}</span><span class="tx"><span class="k">${j.tema}</span><span class="t">${j.titulo}</span></span><span class="go">Jugar →</span></a></li>`).join("")+`</ul>`).join("");
+const mios=CATALOGO.filter(j=>(j.grupo||1)===1);const areas=[...new Set(mios.map(j=>j.area))];
+document.getElementById("lista").innerHTML=areas.map(a=>`<h2>${a}</h2><ul class="list">`+mios.filter(j=>j.area===a).map(j=>`<li><a class="g" href="${j.archivo}?ruta=2"><span class="em">${j.emoji}</span><span class="tx"><span class="k">${j.tema}</span><span class="t">${j.titulo}</span></span><span class="go">Jugar →</span></a></li>`).join("")+`</ul>`).join("");
 </script></body></html>

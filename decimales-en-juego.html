@@ -164,7 +164,14 @@ textarea.free{width:100%;min-height:170px;font:inherit;line-height:1.6;padding:1
 .freerep{background:var(--soft);border-radius:14px;padding:12px 14px;margin-bottom:10px}
 .freerep .q{font-size:14px;color:var(--muted);font-weight:700}
 .freerep .a{white-space:pre-wrap;margin-top:4px}
-figure.vis{margin:0 0 16px;display:flex;justify-content:center}
+figure.vis{margin:0 0 16px;display:flex;flex-direction:column;align-items:center}
+.cap{margin-top:8px;font-weight:700;font-size:.95em;background:color-mix(in srgb,var(--c) 14%,#fff);border-radius:10px;padding:4px 12px;text-align:center}
+.ladder{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px}
+.lb{display:flex;flex-direction:column;align-items:center;background:#fff;border:3px solid var(--c);border-radius:14px;padding:8px 12px;min-width:84px}
+.lb b{font-size:1.4em}.lb span{font-weight:700}.lb small{color:var(--muted)}
+.la{font-weight:700;color:var(--c);font-size:.9em}
+.la::after{content:" →"}
+@media(max-width:560px){.ladder{flex-direction:column;gap:4px}.lb{min-width:160px}.la::after{content:" ↓"}}
 figure.vis svg{max-width:100%;height:auto}
 .vis-c rect.on{fill:var(--c)}.vis-c rect.off{fill:#fff;stroke:#9aa1c4}
 .pv{border-collapse:separate;border-spacing:6px;margin:0 auto}
@@ -216,228 +223,248 @@ footer{color:rgba(255,255,255,.65);text-align:center;font-size:13px;margin-top:2
 /* =================== CONTENIDO =================== */
 const MISSIONS=[
 {id:'m1',n:1,title:'¿Qué es un decimal?',emoji:'🧩',c:'#06b6d4',
- goal:'Entender las décimas, las centésimas y las milésimas.',
+ goal:'Décimas, centésimas y milésimas.',
  intro:[
-  {h:'Partir la unidad en trozos iguales',items:[
-   {t:'Décima (0,1)',d:'Si partes 1 unidad en 10 trozos iguales, cada trozo es una décima.',eg:'1 unidad = 10 décimas',vis:{type:'g10',n:3}},
-   {t:'Centésima (0,01)',d:'Si partes 1 unidad en 100 trozos iguales, cada trozo es una centésima.',eg:'1 unidad = 100 centésimas · 1 décima = 10 centésimas',vis:{type:'g100',n:25}},
-   {t:'Milésima (0,001)',d:'Si partes 1 unidad en 1000 trozos iguales, cada trozo es una milésima.',eg:'1 unidad = 1000 milésimas'}]},
-  {h:'Las dos partes de un número decimal',items:[
-   {t:'Parte entera y parte decimal',d:'La coma separa las unidades enteras (a la izquierda) de los trozos (a la derecha).',eg:'2,35 → 2 unidades enteras y 35 centésimas'},
-   {t:'Ejemplo resuelto',d:'En la cuadrícula hay 45 cuadritos coloreados de 100.',eg:'45 de 100 = 45 centésimas = <b>0,45</b>',vis:{type:'g100',n:45}},
-   {t:'En la vida real',d:'Los decimales aparecen en los precios, las medidas y los tiempos.',eg:'12,50 € · 1,65 m · 9,8 puntos'}]}],
+  {h:'La décima',items:[
+   {t:'Imagina una tableta de chocolate',d:'La tableta entera es <b>1 unidad</b>.<br>La partimos en <b>10 trozos iguales</b>.',vis:{type:'g10',n:10,cap:'Tableta entera: 10 trozos = 1 unidad'}},
+   {t:'Cada trozo es una décima',d:'<b>1 trozo</b> = <b>1 décima</b>.<br>Se escribe así: <b>0,1</b>',vis:{type:'g10',n:1,cap:'1 trozo = 1 décima = 0,1'}},
+   {t:'Cuenta los trozos',d:'Si te comes <b>3 trozos</b>, te comes <b>3 décimas</b>.',vis:{type:'g10',n:3,cap:'3 trozos = 3 décimas = 0,3'}}]},
+  {h:'La centésima',items:[
+   {t:'Trozos más pequeños',d:'Ahora partimos la unidad en <b>100 cuadritos iguales</b>.<br><b>1 cuadrito</b> = <b>1 centésima</b> = <b>0,01</b>',vis:{type:'g100',n:1,cap:'1 cuadrito coloreado = 0,01'}},
+   {t:'Una fila es una décima',d:'Cada fila tiene <b>10 cuadritos</b>.<br>Por eso: <b>1 décima = 10 centésimas</b>.',vis:{type:'g100',n:10,cap:'1 fila = 10 centésimas = 0,1'}},
+   {t:'Con dinero',d:'<b>1 euro</b> tiene <b>100 céntimos</b>.<br>Cada céntimo es <b>una centésima</b> de euro.',eg:'1 céntimo = 0,01 € · 25 céntimos = 0,25 €'}]},
+  {h:'La milésima',items:[
+   {t:'Trozos muy, muy pequeños',d:'Si partimos la unidad en <b>1000 trozos</b>,<br>cada trozo es <b>1 milésima</b> = <b>0,001</b>'},
+   {t:'Un ejemplo real',d:'Una botella de <b>1 litro</b> tiene <b>1000 mililitros</b>.<br>Cada mililitro es <b>una milésima</b> de litro.',eg:'1 mililitro = 0,001 litros'},
+   {t:'Recuerda',d:'Cada vez que partimos en 10, el trozo es <b>10 veces más pequeño</b>.<br>Mira cuántas cifras hay después de la coma.',vis:{type:'ladder'}}]},
+  {h:'Las dos partes de un decimal',items:[
+   {t:'La coma separa',d:'A la <b>izquierda</b>: las unidades enteras.<br>A la <b>derecha</b>: los trozos.',vis:{type:'tab',num:'2,35',cap:'2 unidades y 35 centésimas'}},
+   {t:'Están en todas partes',d:'Precios, medidas y tiempos.',eg:'12,50 € · 1,65 m · 9,8 puntos'}]}],
  items:[
-  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'¿Qué número representa la parte coloreada? La barra entera es 1 unidad.',vis:{type:'g10',n:7},o:['0,7','7','0,07'],a:0,
-   h:'La barra está partida en 10 trozos: cada trozo es una décima. Cuenta los coloreados.',e:'Hay 7 trozos coloreados de 10: <b>7 décimas = 0,7</b>.'},
-  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'¿Qué número representa la parte coloreada? El cuadrado entero es 1 unidad.',vis:{type:'g100',n:45},o:['4,5','0,45','0,045'],a:1,
-   h:'El cuadrado tiene 100 cuadritos: cada uno es una centésima.',e:'45 cuadritos de 100 son <b>45 centésimas = 0,45</b>.'},
-  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'¿Cuántas décimas hay en una unidad?',o:['10','100','1'],a:0,
-   h:'Mira la barra de la explicación: ¿en cuántos trozos se parte?',e:'Una unidad se parte en <b>10 décimas</b>.'},
-  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'¿Cuántas centésimas hay en una décima?',o:['100','10','1'],a:1,
-   h:'Una fila de la cuadrícula de 100 es una décima. ¿Cuántos cuadritos tiene una fila?',e:'Una fila (1 décima) tiene <b>10 centésimas</b>.'},
-  {t:'wr',num:true,c:'Décimas, centésimas y milésimas',ins:'Escribe con cifras el número de la parte coloreada.',vis:{type:'g100',n:8},acc:['0,08'],ph:'0,…',
-   h:'Hay menos de una fila coloreada: son centésimas. Recuerda: 0, y dos cifras después de la coma.',e:'8 cuadritos de 100 = 8 centésimas = <b>0,08</b>. El cero de las décimas es importante.'},
+  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'Elige el número de la parte coloreada.',vis:{type:'g10',n:7},o:['0,7','7','0,07'],a:0,
+   h:'Cada trozo es <b>0,1</b>.<br>Cuenta los trozos de color.',e:'<b>7 trozos</b> de 10 = <b>7 décimas</b> = <b>0,7</b>'},
+  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'Elige el número de la parte coloreada.',vis:{type:'g100',n:45},o:['4,5','0,45','0,045'],a:1,
+   h:'Cada cuadrito es <b>0,01</b>.<br>Hay 4 filas enteras y 5 cuadritos más.',e:'<b>45 cuadritos</b> de 100 = <b>0,45</b>'},
+  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'1 unidad, ¿cuántas décimas tiene?',vis:{type:'g10',n:10},o:['10','100','1'],a:0,
+   h:'Cuenta los trozos de la tableta.',e:'1 unidad = <b>10 décimas</b>'},
+  {t:'mc',c:'Décimas, centésimas y milésimas',ins:'1 décima, ¿cuántas centésimas tiene?',vis:{type:'g100',n:10,cap:'1 fila = 1 décima'},o:['100','10','1'],a:1,
+   h:'Cuenta los cuadritos de la fila coloreada.',e:'1 fila = 1 décima = <b>10 centésimas</b>'},
+  {t:'wr',num:true,c:'Décimas, centésimas y milésimas',ins:'Escribe el número de la parte coloreada.',vis:{type:'g100',n:8},acc:['0,08'],ph:'0,…',
+   h:'Son 8 cuadritos: <b>8 centésimas</b>.<br>Centésimas = <b>2 cifras</b> después de la coma.',e:'8 centésimas = <b>0,08</b><br>¡No olvides el <b>0</b> de las décimas!'},
   {t:'cls',c:'Décimas, centésimas y milésimas',ins:'Une cada nombre con su número.',cats:['0,3','0,03','0,003'],
    words:[['tres décimas','0,3'],['tres centésimas','0,03'],['tres milésimas','0,003']],
-   h:'Décimas: 1 cifra tras la coma. Centésimas: 2. Milésimas: 3.',e:'Tres décimas = <b>0,3</b>; tres centésimas = <b>0,03</b>; tres milésimas = <b>0,003</b>.'},
-  {t:'mc',c:'Lectura y escritura',ins:'En el número 12,6, ¿cuál es la parte entera?',big:'12,6',o:['12','6','12,6'],a:0,
-   h:'La parte entera está a la izquierda de la coma.',e:'La parte entera es <b>12</b>. El 6 son las décimas.'},
-  {t:'mc',c:'Lectura y escritura',ins:'La red de voleibol femenino mide 2,24 m. ¿Cómo se lee esta medida?',big:'2,24 m',o:['2 metros y 24 centímetros','24 metros y 2 centímetros','2 metros y 24 decímetros'],a:0,
-   h:'1 metro tiene 100 centímetros: las centésimas de metro son centímetros.',e:'2,24 m = 2 unidades y 24 centésimas = <b>2 metros y 24 centímetros</b>.'}
+   h:'Décimas → <b>1</b> cifra<br>Centésimas → <b>2</b> cifras<br>Milésimas → <b>3</b> cifras',e:'tres décimas = <b>0,3</b><br>tres centésimas = <b>0,03</b><br>tres milésimas = <b>0,003</b>'},
+  {t:'mc',c:'Lectura y escritura',ins:'¿Cuál es la parte entera?',big:'12,6',o:['12','6','12,6'],a:0,
+   h:'Está a la <b>izquierda</b> de la coma.',e:'Parte entera: <b>12</b><br>Parte decimal: 6 décimas'},
+  {t:'mc',c:'Lectura y escritura',ins:'¿Cómo se lee esta medida?',txt:'La red de voleibol femenino mide <b>2,24 m</b>.',o:['2 metros y 24 centímetros','24 metros y 2 centímetros','2 metros y 24 decímetros'],a:0,
+   h:'1 metro = <b>100 centímetros</b>.<br>Las centésimas de metro son <b>centímetros</b>.',e:'2,24 m = <b>2 metros y 24 centímetros</b>'}
  ]},
 {id:'m2',n:2,title:'El valor de cada cifra',emoji:'🏷️',c:'#8b5cf6',
- goal:'Saber qué vale cada cifra según su lugar.',
+ goal:'Saber qué vale cada cifra.',
  intro:[
   {h:'La tabla de valor posicional',items:[
-   {t:'Cada cifra tiene su casilla',d:'Después de la coma van, en este orden: décimas, centésimas y milésimas.',eg:'3,457',vis:{type:'tab',num:'3,457'}},
-   {t:'Descomponer',d:'Separamos el número según lo que vale cada cifra.',eg:'3,457 = 3 + 0,4 + 0,05 + 0,007'}]},
-  {h:'Leer y escribir decimales',items:[
-   {t:'Para leer',d:'Dices la parte entera, después «y» y la parte decimal con su nombre.',eg:'6,05 → seis unidades y cinco centésimas'},
-   {t:'Para escribir',d:'Fíjate en el nombre final: décimas = 1 cifra, centésimas = 2, milésimas = 3.',eg:'cinco centésimas → 0,05 (no 0,5)'}]}],
+   {t:'Cada cifra en su casilla',d:'<b>U</b> = unidades<br><b>d</b> = décimas · <b>c</b> = centésimas · <b>m</b> = milésimas',vis:{type:'tab',num:'3,457'}},
+   {t:'El lugar importa',d:'La misma cifra vale distinto según su casilla.',eg:'0,<b>5</b> → 5 décimas · 0,0<b>5</b> → 5 centésimas'}]},
+  {h:'Descomponer',items:[
+   {t:'Separar en partes',d:'Escribe lo que vale cada cifra.<br>Después, súmalo todo.',vis:{type:'tab',num:'3,46',cap:'3,46 = 3 + 0,4 + 0,06'}},
+   {t:'Con dinero',d:'3,46 € = <b>3 euros</b> + <b>40 céntimos</b> + <b>6 céntimos</b>'}]},
+  {h:'Leer y escribir',items:[
+   {t:'Para leer',d:'1. Di la parte entera.<br>2. Di <b>«y»</b>.<br>3. Di la parte decimal con su nombre.',eg:'6,05 → seis unidades <b>y</b> cinco centésimas'},
+   {t:'Para escribir',d:'Mira la <b>última palabra</b>:<br>décimas → 1 cifra<br>centésimas → 2 cifras<br>milésimas → 3 cifras',eg:'cinco centésimas → 0,05'}]}],
  items:[
-  {t:'mc',c:'Valor de posición',ins:'¿Qué cifra ocupa el lugar de las décimas?',vis:{type:'tab',num:'4,72'},o:['7','2','4'],a:0,
-   h:'Las décimas están justo después de la coma.',e:'En 4,72 la cifra de las décimas es el <b>7</b>.'},
-  {t:'mc',c:'Valor de posición',ins:'En 0,385, ¿cuánto vale la cifra 8?',big:'0,385',o:['8 décimas (0,8)','8 centésimas (0,08)','8 milésimas (0,008)'],a:1,
-   h:'Cuenta las casillas desde la coma: 1.ª décimas, 2.ª centésimas, 3.ª milésimas.',e:'El 8 está en el segundo lugar tras la coma: vale <b>8 centésimas = 0,08</b>.',vis:{type:'tab',num:'0,385'}},
-  {t:'wr',num:true,c:'Lectura y escritura',ins:'Escribe con cifras este número.',big:'cinco unidades y treinta y dos centésimas',acc:['5,32'],ph:'Escribe el número',
-   h:'Centésimas: dos cifras después de la coma.',e:'<b>5,32</b>: 5 unidades, coma, 32 centésimas.'},
-  {t:'wr',num:true,c:'Lectura y escritura',ins:'Escribe con cifras este número.',big:'siete décimas',acc:['0,7'],ph:'Escribe el número',
-   h:'No hay unidades enteras: empieza por 0,',e:'<b>0,7</b>: cero unidades y siete décimas.'},
-  {t:'mc',c:'Lectura y escritura',ins:'¿Cómo se lee este número?',big:'6,05',o:['seis unidades y cinco centésimas','seis unidades y cinco décimas','seis unidades y cincuenta centésimas'],a:0,
-   h:'Hay un 0 en las décimas. ¿En qué casilla está el 5?',e:'El 5 está en las centésimas: <b>seis unidades y cinco centésimas</b>.',vis:{type:'tab',num:'6,05'}},
+  {t:'mc',c:'Valor de posición',ins:'¿Qué cifra está en las décimas (d)?',vis:{type:'tab',num:'4,72'},o:['7','2','4'],a:0,
+   h:'Las décimas van <b>justo después</b> de la coma.',e:'En 4,72 → décimas: <b>7</b>'},
+  {t:'mc',c:'Valor de posición',ins:'¿Cuánto vale el 8?',vis:{type:'tab',num:'0,385'},o:['8 décimas (0,8)','8 centésimas (0,08)','8 milésimas (0,008)'],a:1,
+   h:'Mira en qué casilla está el 8: ¿d, c o m?',e:'El 8 está en la casilla <b>c</b>:<br><b>8 centésimas = 0,08</b>'},
+  {t:'wr',num:true,c:'Lectura y escritura',ins:'Escribe el número con cifras.',big:'cinco unidades y treinta y dos centésimas',acc:['5,32'],ph:'Escribe el número',
+   h:'Primero el 5 y la coma.<br>Centésimas → <b>2 cifras</b>.',e:'<b>5,32</b>'},
+  {t:'wr',num:true,c:'Lectura y escritura',ins:'Escribe el número con cifras.',big:'siete décimas',acc:['0,7'],ph:'Escribe el número',
+   h:'No hay unidades: empieza por <b>0,</b><br>Décimas → <b>1 cifra</b>.',e:'<b>0,7</b>'},
+  {t:'mc',c:'Lectura y escritura',ins:'¿Cómo se lee este número?',vis:{type:'tab',num:'6,05'},o:['seis unidades y cinco centésimas','seis unidades y cinco décimas','seis unidades y cincuenta centésimas'],a:0,
+   h:'Mira la tabla: el 5 está en la casilla <b>c</b>.',e:'<b>Seis unidades y cinco centésimas</b>'},
   {t:'mc',c:'Descomponer',ins:'Elige la descomposición correcta.',big:'3,46',o:['3 + 0,4 + 0,06','3 + 4 + 6','3 + 0,04 + 0,6'],a:0,
-   h:'El 4 está en las décimas y el 6 en las centésimas.',e:'<b>3,46 = 3 + 0,4 + 0,06</b>.'},
-  {t:'wr',num:true,c:'Descomponer',ins:'Calcula el número que se forma.',big:'2 + 0,5 + 0,03 = ___',acc:['2,53'],ph:'Escribe el resultado',
-   h:'Coloca cada parte en su casilla: unidades, décimas y centésimas.',e:'2 unidades, 5 décimas y 3 centésimas: <b>2,53</b>.'},
-  {t:'cls',c:'Valor de posición',ins:'¿Qué lugar ocupa la cifra 9 en cada número?',cats:['Décimas','Centésimas','Milésimas'],
+   h:'El 4 está en las <b>d</b> → 0,4<br>El 6 está en las <b>c</b> → 0,06',e:'3,46 = <b>3 + 0,4 + 0,06</b>'},
+  {t:'wr',num:true,c:'Descomponer',ins:'Escribe el número que se forma.',big:'2 + 0,5 + 0,03',acc:['2,53'],ph:'Escribe el número',
+   h:'2 unidades · 5 décimas · 3 centésimas<br>Ponlas en orden: U , d c',e:'<b>2,53</b>'},
+  {t:'cls',c:'Valor de posición',ins:'¿Dónde está el 9? Elige su casilla.',cats:['Décimas','Centésimas','Milésimas'],
    words:[['0,9','Décimas'],['0,09','Centésimas'],['0,009','Milésimas']],
-   h:'Cuenta cuántas cifras hay después de la coma hasta llegar al 9.',e:'0,<b>9</b> → décimas · 0,0<b>9</b> → centésimas · 0,00<b>9</b> → milésimas.'}
+   h:'Cuenta las cifras desde la coma hasta el 9.',e:'0,<b>9</b> → décimas<br>0,0<b>9</b> → centésimas<br>0,00<b>9</b> → milésimas'}
  ]},
 {id:'m3',n:3,title:'Comparar, ordenar y redondear',emoji:'⚖️',c:'#f59e0b',
- goal:'Saber qué decimal es mayor y redondear.',
+ goal:'¿Cuál es mayor? Y redondear.',
  intro:[
   {h:'¿Cuál es mayor?',items:[
-   {t:'Paso 1',d:'Compara la parte entera. Si es distinta, ya lo sabes.',eg:'3,2 > 2,9 porque 3 > 2'},
-   {t:'Paso 2',d:'Si la parte entera es igual, compara las décimas; después, las centésimas.',eg:'0,8 y 0,75 → 8 décimas > 7 décimas → 0,8 es mayor'},
-   {t:'Truco',d:'Añade ceros al final para que tengan las mismas cifras. ¡No cambia el valor!',eg:'0,8 = 0,80 → 0,80 > 0,75'}]},
-  {h:'La recta numérica y el redondeo',items:[
-   {t:'Recta numérica',d:'Entre 0 y 1 hay 10 saltos de una décima.',eg:'La flecha está en 0,4',vis:{type:'line',mark:0.4}},
-   {t:'Redondear a la unidad',d:'Mira las décimas: si son 5 o más, sube la unidad; si son menos de 5, se queda igual.',eg:'3,7 → 4 · 3,2 → 3'},
-   {t:'Redondear a la décima',d:'Mira las centésimas y aplica la misma regla.',eg:'5,46 → 5,5 · 5,42 → 5,4'}]}],
+   {t:'Paso 1: la parte entera',d:'Mira primero el número <b>antes de la coma</b>.',eg:'<b>3</b>,2 &gt; <b>2</b>,9 porque 3 &gt; 2'},
+   {t:'Paso 2: si son iguales',d:'Mira las <b>décimas</b>.<br>Si también son iguales, mira las <b>centésimas</b>.',eg:'0,<b>8</b> &gt; 0,<b>7</b>5 porque 8 &gt; 7'}]},
+  {h:'El truco del cero',items:[
+   {t:'Añade ceros al final',d:'Así los dos números tienen las mismas cifras.<br>¡El valor <b>no cambia</b>!',eg:'0,8 = 0,80'},
+   {t:'Ahora compara',d:'0,80 y 0,75 → 80 es más que 75.',eg:'0,8 es <b>mayor</b>'},
+   {t:'¡Cuidado!',d:'Tener <b>más cifras</b> no significa ser <b>mayor</b>.'}]},
+  {h:'La recta numérica',items:[
+   {t:'De 0 a 1',d:'Hay <b>10 saltos</b>.<br>Cada salto es <b>0,1</b>.',vis:{type:'line',mark:0.4,cap:'La flecha está en 0,4'}}]},
+  {h:'Redondear',items:[
+   {t:'La regla del 5',d:'Mira la cifra de la <b>derecha</b>.<br><b>5 o más</b> → sube.<br><b>Menos de 5</b> → se queda igual.'},
+   {t:'A la unidad',d:'Mira las <b>décimas</b>.',eg:'3,<b>7</b> → 4 · 3,<b>2</b> → 3'},
+   {t:'A la décima',d:'Mira las <b>centésimas</b>.',eg:'5,4<b>6</b> → 5,5 · 5,4<b>2</b> → 5,4'}]}],
  items:[
   {t:'mc',c:'Comparar y ordenar',ins:'¿Qué número es mayor?',o:['0,8','0,75'],a:0,
-   h:'Añade un cero: 0,8 = 0,80. Ahora compara 80 y 75.',e:'0,8 = 0,80 y 80 centésimas &gt; 75 centésimas, así que <b>0,8 es mayor</b>. ¡Tener más cifras no significa ser mayor!'},
-  {t:'mc',c:'Comparar y ordenar',ins:'¿Qué signo va en el hueco?',big:'2,4 ___ 2,40',o:['=','<','>'],a:0,
-   h:'Un cero al final de la parte decimal no cambia el valor.',e:'2,4 y 2,40 son <b>iguales</b>: 4 décimas = 40 centésimas.'},
+   h:'Truco del cero: 0,8 = <b>0,80</b>.<br>Compara 80 y 75.',e:'0,80 &gt; 0,75<br>→ <b>0,8 es mayor</b>'},
+  {t:'mc',c:'Comparar y ordenar',ins:'Elige el signo.',big:'2,4 ___ 2,40',o:['=','<','>'],a:0,
+   h:'Un cero al final <b>no cambia</b> el valor.',e:'2,4 = 2,40<br>→ son <b>iguales</b>'},
   {t:'mc',c:'Recta numérica',ins:'¿Qué número marca la flecha?',vis:{type:'line',mark:0.6},o:['0,6','0,06','6'],a:0,
-   h:'Cada rayita es una décima. Cuenta desde el 0.',e:'La flecha está en la sexta rayita: <b>0,6</b>.'},
-  {t:'ord',c:'Comparar y ordenar',ins:'Ordena de menor a mayor estos tiempos de una carrera de calentamiento (en segundos).',w:['12,05','12,3','12,48','13'],
-   h:'Todos empiezan por 12 menos uno. Para comparar, escríbelos con dos decimales: 12,05 · 12,30 · 12,48.',e:'<b>12,05 &lt; 12,3 &lt; 12,48 &lt; 13</b>. 12,3 = 12,30.'},
-  {t:'ord',c:'Comparar y ordenar',ins:'Ordena de mayor a menor las notas de un concurso de baile.',w:['9,6','9,45','9,4','8,95'],
-   h:'Escríbelas todas con dos decimales: 9,60 · 9,45 · 9,40 · 8,95.',e:'<b>9,6 &gt; 9,45 &gt; 9,4 &gt; 8,95</b>.'},
+   h:'Cada rayita es <b>0,1</b>.<br>Cuenta los saltos desde el 0.',e:'6 saltos → <b>0,6</b>'},
+  {t:'ord',c:'Comparar y ordenar',ins:'Ordena los tiempos de menor a mayor.',w:['12,05','12,3','12,48','13'],
+   h:'Escríbelos con 2 decimales:<br>12,05 · 12,30 · 12,48 · 13,00',e:'<b>12,05 → 12,3 → 12,48 → 13</b>'},
+  {t:'ord',c:'Comparar y ordenar',ins:'Ordena las notas de baile de mayor a menor.',w:['9,6','9,45','9,4','8,95'],
+   h:'Escríbelas con 2 decimales:<br>9,60 · 9,45 · 9,40 · 8,95',e:'<b>9,6 → 9,45 → 9,4 → 8,95</b>'},
   {t:'mc',c:'Redondeo',ins:'Redondea a la unidad.',big:'3,7',o:['4','3','3,8'],a:0,
-   h:'Mira las décimas: 7 es 5 o más.',e:'Como 7 décimas es 5 o más, la unidad sube: <b>3,7 → 4</b>.'},
+   h:'Mira las décimas: <b>7</b>.<br>¿Es 5 o más?',e:'7 es 5 o más → sube<br><b>3,7 → 4</b>'},
   {t:'mc',c:'Redondeo',ins:'Redondea a la décima.',big:'5,42',o:['5,4','5,5','5'],a:0,
-   h:'Mira las centésimas: 2 es menos de 5.',e:'2 centésimas es menos de 5, así que la décima no cambia: <b>5,42 → 5,4</b>.'},
-  {t:'mc',c:'Comparar y ordenar',ins:'Tres jugadoras miden su salto vertical. ¿Cuál salta más?',big:'0,45 m · 0,5 m · 0,38 m',o:['la de 0,5 m','la de 0,45 m','la de 0,38 m'],a:0,
-   h:'Escribe 0,5 como 0,50 y compara.',e:'0,50 &gt; 0,45 &gt; 0,38: salta más <b>la de 0,5 m</b>.'}
+   h:'Mira las centésimas: <b>2</b>.<br>¿Es 5 o más?',e:'2 es menos de 5 → se queda igual<br><b>5,42 → 5,4</b>'},
+  {t:'mc',c:'Comparar y ordenar',ins:'¿Qué jugadora salta más?',txt:'Salto de tres jugadoras:<br><b>0,45 m</b> · <b>0,5 m</b> · <b>0,38 m</b>',o:['la de 0,5 m','la de 0,45 m','la de 0,38 m'],a:0,
+   h:'Truco del cero: 0,5 = <b>0,50</b>.',e:'0,50 &gt; 0,45 &gt; 0,38<br>→ <b>la de 0,5 m</b>'}
  ]},
-{id:'m4',n:4,title:'Sumar y restar decimales',emoji:'➕',c:'#22c55e',
- goal:'Sumar y restar decimales sin perder la coma.',
+{id:'m4',n:4,title:'Sumar y restar',emoji:'➕',c:'#22c55e',
+ goal:'Sumar y restar sin perder la coma.',
  intro:[
-  {h:'La regla de oro: coma debajo de coma',items:[
-   {t:'1. Coloca',d:'Escribe los números uno debajo del otro con la coma alineada.',eg:'3,5 + 1,25',vis:{type:'col',n:['3,5','1,25'],op:'+'}},
-   {t:'2. Rellena',d:'Si un número tiene menos decimales, añade ceros (en gris).',eg:'3,5 → 3,50'},
-   {t:'3. Opera y baja la coma',d:'Suma como siempre, de derecha a izquierda, y pon la coma en el resultado debajo de las otras.',eg:'3,50 + 1,25 = <b>4,75</b>'}]},
-  {h:'Ejemplo resuelto de resta',items:[
-   {t:'5 − 2,35',d:'El 5 no tiene decimales: lo escribimos como 5,00.',eg:'5,00 − 2,35',vis:{type:'col',n:['5','2,35'],op:'−'}},
-   {t:'Resultado',d:'Restamos como siempre (con llevadas) y bajamos la coma.',eg:'5,00 − 2,35 = <b>2,65</b>'},
-   {t:'Comprueba',d:'Suma el resultado y lo que has restado: debe dar el primer número.',eg:'2,65 + 2,35 = 5 ✅'}]}],
+  {h:'Sumar: coma debajo de coma',items:[
+   {t:'Paso 1: coloca',d:'Un número <b>debajo</b> del otro.<br>La coma, <b>debajo de la coma</b>.',vis:{type:'col',n:['3,5','1,25'],op:'+'}},
+   {t:'Paso 2: rellena',d:'Si falta una cifra, pon un <b>0</b> (en gris).',eg:'3,5 → 3,50'},
+   {t:'Paso 3: suma y baja la coma',d:'Suma de <b>derecha a izquierda</b>.<br>Baja la coma al resultado.',eg:'3,50 + 1,25 = <b>4,75</b>'}]},
+  {h:'Restar: igual que sumar',items:[
+   {t:'Ejemplo: 5 − 2,35',d:'El 5 no tiene decimales.<br>Escríbelo así: <b>5,00</b>',vis:{type:'col',n:['5','2,35'],op:'−'}},
+   {t:'Resta y baja la coma',d:'Resta como siempre.',eg:'5,00 − 2,35 = <b>2,65</b>'},
+   {t:'Comprueba',d:'Resultado + lo que restaste = el primer número.',eg:'2,65 + 2,35 = 5 ✅'}]}],
  items:[
-  {t:'mc',c:'Sumar y restar',ins:'Para sumar o restar decimales, ¿qué es lo más importante?',o:['Poner coma debajo de coma','Alinear los números por la derecha','Alinear los números por la izquierda'],a:0,
-   h:'Recuerda la regla de oro.',e:'Con <b>coma debajo de coma</b>, las décimas se suman con décimas y las centésimas con centésimas.'},
-  {t:'wr',num:true,c:'Sumar y restar',ins:'Calcula la suma.',vis:{type:'col',n:['2,5','1,3'],op:'+'},acc:['3,8'],ph:'Resultado',
-   h:'Suma primero las décimas (5 + 3) y luego las unidades (2 + 1).',e:'2,5 + 1,3 = <b>3,8</b>.'},
-  {t:'wr',num:true,c:'Sumar y restar',ins:'Calcula la suma. Los ceros grises te ayudan.',vis:{type:'col',n:['4,75','2,2'],op:'+'},acc:['6,95'],ph:'Resultado',
-   h:'2,2 = 2,20. Suma centésimas, décimas y unidades.',e:'4,75 + 2,20 = <b>6,95</b>.'},
-  {t:'wr',num:true,c:'Sumar y restar',ins:'Calcula la resta.',vis:{type:'col',n:['6,8','2,5'],op:'−'},acc:['4,3'],ph:'Resultado',
-   h:'Resta las décimas (8 − 5) y las unidades (6 − 2).',e:'6,8 − 2,5 = <b>4,3</b>.'},
-  {t:'wr',num:true,c:'Sumar y restar',ins:'Calcula la resta. Escribe el 5 como 5,00.',vis:{type:'col',n:['5','1,75'],op:'−'},acc:['3,25'],ph:'Resultado',
-   h:'5,00 − 1,75: empieza por las centésimas y pide prestado cuando haga falta.',e:'5,00 − 1,75 = <b>3,25</b>. Comprueba: 3,25 + 1,75 = 5 ✅'},
-  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Resuelve el problema.',txt:'Una camiseta de voleibol cuesta 12,50 € y unas rodilleras cuestan 8,75 €. ¿Cuánto cuesta todo junto?',acc:['21,25'],ph:'Resultado en €',
-   h:'«Todo junto» significa sumar: 12,50 + 8,75.',e:'12,50 + 8,75 = <b>21,25 €</b>.',vis:{type:'col',n:['12,50','8,75'],op:'+',hide:true}},
-  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Resuelve el problema.',txt:'Pagas unas zapatillas de baile de 14,60 € con un billete de 20 €. ¿Cuánto dinero te devuelven?',acc:['5,40'],ph:'Resultado en €',
-   h:'Te devuelven lo que sobra: 20,00 − 14,60.',e:'20,00 − 14,60 = <b>5,40 €</b>.',vis:{type:'col',n:['20','14,60'],op:'−',hide:true}},
-  {t:'mc',c:'Estimación',ins:'Sin hacer la cuenta exacta: ¿cuánto da aproximadamente?',big:'3,9 + 5,2',o:['unos 9','unos 90','unos 0,9'],a:0,
-   h:'Redondea: 3,9 es casi 4 y 5,2 es casi 5.',e:'4 + 5 = 9, así que el resultado está cerca de <b>9</b> (exactamente, 9,1). Estimar ayuda a detectar errores con la coma.'}
+  {t:'mc',c:'Sumar y restar',ins:'Para sumar decimales, ¿qué es lo más importante?',o:['La coma debajo de la coma','Los números pegados a la derecha','Los números pegados a la izquierda'],a:0,
+   h:'Recuerda el Paso 1.',e:'<b>Coma debajo de coma</b>.<br>Así sumas décimas con décimas y centésimas con centésimas.'},
+  {t:'wr',num:true,c:'Sumar y restar',ins:'Suma.',vis:{type:'col',n:['2,5','1,3'],op:'+'},acc:['3,8'],ph:'Resultado',
+   h:'Décimas: 5 + 3.<br>Unidades: 2 + 1.',e:'2,5 + 1,3 = <b>3,8</b>'},
+  {t:'wr',num:true,c:'Sumar y restar',ins:'Suma. Los ceros grises te ayudan.',vis:{type:'col',n:['4,75','2,2'],op:'+'},acc:['6,95'],ph:'Resultado',
+   h:'2,2 = <b>2,20</b>.<br>Suma columna a columna.',e:'4,75 + 2,20 = <b>6,95</b>'},
+  {t:'wr',num:true,c:'Sumar y restar',ins:'Resta.',vis:{type:'col',n:['6,8','2,5'],op:'−'},acc:['4,3'],ph:'Resultado',
+   h:'Décimas: 8 − 5.<br>Unidades: 6 − 2.',e:'6,8 − 2,5 = <b>4,3</b>'},
+  {t:'wr',num:true,c:'Sumar y restar',ins:'Resta. El 5 es 5,00.',vis:{type:'col',n:['5','1,75'],op:'−'},acc:['3,25'],ph:'Resultado',
+   h:'Empieza por la derecha.<br>Si no puedes restar, <b>pide prestado</b>.',e:'5,00 − 1,75 = <b>3,25</b><br>Comprueba: 3,25 + 1,75 = 5 ✅'},
+  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Resuelve el problema.',txt:'Camiseta de voleibol: <b>12,50 €</b><br>Rodilleras: <b>8,75 €</b><br>¿Cuánto cuesta <b>todo junto</b>?',acc:['21,25'],ph:'Resultado en €',
+   h:'«Todo junto» → <b>sumar</b>.<br>12,50 + 8,75',e:'12,50 + 8,75 = <b>21,25 €</b>',vis:{type:'col',n:['12,50','8,75'],op:'+',hide:true}},
+  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Resuelve el problema.',txt:'Zapatillas de baile: <b>14,60 €</b><br>Pagas con un billete de <b>20 €</b>.<br>¿Cuánto te <b>devuelven</b>?',acc:['5,40'],ph:'Resultado en €',
+   h:'«Te devuelven» → lo que sobra → <b>restar</b>.<br>20,00 − 14,60',e:'20,00 − 14,60 = <b>5,40 €</b>',vis:{type:'col',n:['20','14,60'],op:'−',hide:true}},
+  {t:'mc',c:'Estimación',ins:'Sin hacer la cuenta: ¿cuánto da más o menos?',big:'3,9 + 5,2',o:['unos 9','unos 90','unos 0,9'],a:0,
+   h:'3,9 es casi <b>4</b>.<br>5,2 es casi <b>5</b>.',e:'4 + 5 = 9 → <b>unos 9</b> (exacto: 9,1)<br>Estimar te ayuda a ver si la coma está bien.'}
  ]},
 {id:'m5',n:5,title:'Multiplicar y mover la coma',emoji:'✖️',c:'#ec4899',
- goal:'Multiplicar decimales y usar ×10, ×100 y ×1000.',
+ goal:'× 10, × 100, × 1000 y decimal × número.',
  intro:[
-  {h:'Multiplicar y dividir por 10, 100 y 1000',items:[
-   {t:'× 10, × 100, × 1000',d:'La coma se mueve a la DERECHA 1, 2 o 3 lugares (uno por cada cero). Si faltan cifras, añade ceros.',eg:'3,45 × 10 = 34,5 · 0,7 × 100 = 70'},
-   {t:': 10, : 100, : 1000',d:'La coma se mueve a la IZQUIERDA 1, 2 o 3 lugares.',eg:'45,2 : 10 = 4,52 · 6 : 100 = 0,06'},
-   {t:'Truco',d:'Multiplicar hace el número más grande; dividir, más pequeño.',eg:'Si al multiplicar te sale un número menor, revisa la coma.'}]},
-  {h:'Decimal por número natural',items:[
-   {t:'1. Multiplica sin mirar la coma',d:'Haz la multiplicación como si no hubiera coma.',eg:'2,35 × 3 → 235 × 3 = 705',vis:{type:'col',n:['2,35','3'],op:'×'}},
-   {t:'2. Cuenta los decimales',d:'2,35 tiene 2 cifras después de la coma.',eg:'2 decimales'},
-   {t:'3. Pon la coma',d:'Cuenta desde la derecha del resultado el mismo número de cifras.',eg:'705 → <b>7,05</b>'}]}],
+  {h:'Multiplicar por 10, 100 y 1000',items:[
+   {t:'La coma salta a la derecha',d:'× 10 → <b>1</b> salto<br>× 100 → <b>2</b> saltos<br>× 1000 → <b>3</b> saltos',eg:'3,45 × 10 = 34,5'},
+   {t:'Si faltan cifras',d:'Añade <b>ceros</b>.',eg:'0,7 × 100 → 0,70 → <b>70</b>'},
+   {t:'Pista',d:'Multiplicar hace el número <b>más grande</b>.'}]},
+  {h:'Dividir entre 10, 100 y 1000',items:[
+   {t:'La coma salta a la izquierda',d:': 10 → <b>1</b> salto<br>: 100 → <b>2</b> saltos<br>: 1000 → <b>3</b> saltos',eg:'45,2 : 10 = 4,52'},
+   {t:'Pista',d:'Dividir hace el número <b>más pequeño</b>.'}]},
+  {h:'Decimal × número',items:[
+   {t:'Paso 1',d:'Multiplica <b>sin mirar la coma</b>.',eg:'2,35 × 3 → 235 × 3 = 705',vis:{type:'col',n:['2,35','3'],op:'×'}},
+   {t:'Paso 2',d:'Cuenta las cifras <b>después de la coma</b>.',eg:'2,35 → 2 cifras'},
+   {t:'Paso 3',d:'Pon la coma.<br>Cuenta esas cifras <b>desde la derecha</b>.',eg:'705 → <b>7,05</b>'}]}],
  items:[
-  {t:'wr',num:true,c:'Por 10, 100 y 1000',ins:'Calcula.',big:'3,45 × 10 = ___',acc:['34,5'],ph:'Resultado',
-   h:'× 10: la coma se mueve 1 lugar a la derecha.',e:'3,45 × 10 = <b>34,5</b>.'},
-  {t:'wr',num:true,c:'Por 10, 100 y 1000',ins:'Calcula.',big:'0,7 × 100 = ___',acc:['70'],ph:'Resultado',
-   h:'× 100: la coma se mueve 2 lugares. Si falta una cifra, añade un 0.',e:'0,7 → 0,70 → <b>70</b>.'},
-  {t:'wr',num:true,c:'Por 10, 100 y 1000',ins:'Calcula.',big:'45,2 : 10 = ___',acc:['4,52'],ph:'Resultado',
-   h:'Dividir entre 10: la coma se mueve 1 lugar a la izquierda.',e:'45,2 : 10 = <b>4,52</b>.'},
-  {t:'mc',c:'Por 10, 100 y 1000',ins:'Al multiplicar un número por 1000, la coma…',o:['se mueve 3 lugares a la derecha','se mueve 3 lugares a la izquierda','se queda igual'],a:0,
-   h:'1000 tiene tres ceros, y multiplicar hace el número más grande.',e:'× 1000: la coma se mueve <b>3 lugares a la derecha</b>.'},
-  {t:'wr',num:true,c:'Multiplicar decimales',ins:'Calcula la multiplicación.',vis:{type:'col',n:['1,25','3'],op:'×'},acc:['3,75'],ph:'Resultado',
-   h:'125 × 3 = 375. 1,25 tiene 2 decimales.',e:'125 × 3 = 375 → con 2 decimales: <b>3,75</b>.'},
-  {t:'wr',num:true,c:'Multiplicar decimales',ins:'Calcula la multiplicación.',vis:{type:'col',n:['2,4','5'],op:'×'},acc:['12'],ph:'Resultado',
-   h:'24 × 5 = 120. 2,4 tiene 1 decimal.',e:'24 × 5 = 120 → con 1 decimal: 12,0 = <b>12</b>.'},
-  {t:'mc',plan:true,c:'Problemas',ins:'¿Qué operación resuelve el problema?',txt:'Una botella de agua tiene 1,5 litros. Para el entrenamiento compramos 6 botellas. ¿Cuántos litros hay en total?',o:['1,5 × 6','1,5 + 6','6 − 1,5'],a:0,
-   h:'Son 6 botellas iguales: sumar 1,5 seis veces es lo mismo que…',e:'6 veces 1,5 es <b>1,5 × 6</b> = 9 litros.'},
-  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Resuelve el problema.',txt:'Cada entrada al festival de baile cuesta 6,50 €. Vas con tres amigas. ¿Cuánto cuestan las 4 entradas?',acc:['26'],ph:'Resultado en €',
-   h:'Sois 4 personas: 6,50 × 4.',e:'650 × 4 = 2600 → con 2 decimales: 26,00 = <b>26 €</b>.',vis:{type:'col',n:['6,50','4'],op:'×',hide:true}}
+  {t:'wr',num:true,c:'Por 10, 100 y 1000',ins:'Calcula.',big:'3,45 × 10',acc:['34,5'],ph:'Resultado',
+   h:'× 10 → la coma salta <b>1 lugar</b> a la derecha.',e:'3,45 × 10 = <b>34,5</b>'},
+  {t:'wr',num:true,c:'Por 10, 100 y 1000',ins:'Calcula.',big:'0,7 × 100',acc:['70'],ph:'Resultado',
+   h:'× 100 → <b>2 saltos</b>.<br>Falta una cifra: 0,7 → 0,70',e:'0,70 × 100 = <b>70</b>'},
+  {t:'wr',num:true,c:'Por 10, 100 y 1000',ins:'Calcula.',big:'45,2 : 10',acc:['4,52'],ph:'Resultado',
+   h:': 10 → la coma salta <b>1 lugar</b> a la izquierda.',e:'45,2 : 10 = <b>4,52</b>'},
+  {t:'mc',c:'Por 10, 100 y 1000',ins:'Al multiplicar × 1000, la coma…',o:['salta 3 lugares a la derecha','salta 3 lugares a la izquierda','se queda igual'],a:0,
+   h:'1000 tiene <b>3 ceros</b>.<br>Multiplicar hace el número más grande.',e:'× 1000 → <b>3 saltos a la derecha</b>'},
+  {t:'wr',num:true,c:'Multiplicar decimales',ins:'Multiplica.',vis:{type:'col',n:['1,25','3'],op:'×'},acc:['3,75'],ph:'Resultado',
+   h:'125 × 3 = 375<br>1,25 tiene <b>2 cifras</b> después de la coma.',e:'375 → <b>3,75</b>'},
+  {t:'wr',num:true,c:'Multiplicar decimales',ins:'Multiplica.',vis:{type:'col',n:['2,4','5'],op:'×'},acc:['12'],ph:'Resultado',
+   h:'24 × 5 = 120<br>2,4 tiene <b>1 cifra</b> después de la coma.',e:'120 → 12,0 = <b>12</b>'},
+  {t:'mc',plan:true,c:'Problemas',ins:'¿Qué operación resuelve el problema?',txt:'Una botella tiene <b>1,5 litros</b>.<br>Compramos <b>6 botellas</b>.<br>¿Cuántos litros hay en total?',o:['1,5 × 6','1,5 + 6','6 − 1,5'],a:0,
+   h:'6 botellas iguales.<br>Sumar 1,5 seis veces = <b>multiplicar</b>.',e:'<b>1,5 × 6</b> = 9 litros'},
+  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Resuelve el problema.',txt:'Una entrada al festival de baile cuesta <b>6,50 €</b>.<br>Vais <b>4 amigas</b>.<br>¿Cuánto cuestan las 4 entradas?',acc:['26'],ph:'Resultado en €',
+   h:'6,50 × 4<br>650 × 4 = 2600. ¿Cuántas cifras van tras la coma?',e:'6,50 × 4 = <b>26 €</b>',vis:{type:'col',n:['6,50','4'],op:'×',hide:true}}
  ]},
 {id:'m6',n:6,title:'Fracciones y decimales',emoji:'🍕',c:'#ef4444',
- goal:'Pasar de fracción a número decimal y al revés.',
+ goal:'Pasar de fracción a decimal.',
  intro:[
-  {h:'Fracciones decimales: las más fáciles',items:[
-   {t:'¿Qué son?',d:'Son las fracciones con denominador 10, 100 o 1000.',eg:'3/10 · 7/100 · 125/1000',vis:{type:'frac',n:3,d:10,eq:'= 0,3'}},
-   {t:'El truco de los ceros',d:'Cuenta los ceros del denominador: son las cifras que van después de la coma.',eg:'10 → 1 cifra · 100 → 2 cifras · 1000 → 3 cifras'},
-   {t:'Ejemplo resuelto',d:'7/100 se lee «siete centésimas». 100 tiene dos ceros: dos cifras tras la coma.',eg:'7/100 = <b>0,07</b> (el 0 de las décimas es importante)',vis:{type:'frac',n:7,d:100,eq:'= 0,07'}}]},
-  {h:'Otras fracciones que se usan mucho',items:[
-   {t:'Pásala a décimas o centésimas',d:'Multiplica arriba y abajo por el mismo número hasta llegar a 10 o a 100.',eg:'1/2 = 5/10 = <b>0,5</b> · 1/5 = 2/10 = <b>0,2</b>'},
-   {t:'Cuartos',d:'Un cuarto es 25 de 100.',eg:'1/4 = 25/100 = <b>0,25</b> · 3/4 = 75/100 = <b>0,75</b>',vis:{type:'g100',n:25}},
-   {t:'Piensa en euros',d:'Medio euro, un cuarto de euro… ¡ya los conoces!',eg:'1/2 € = 0,50 € · 1/4 € = 0,25 € · 3/4 € = 0,75 €'}]}],
+  {h:'Fracciones con 10, 100 o 1000',items:[
+   {t:'Así se leen',d:'3/10 → tres <b>décimas</b><br>7/100 → siete <b>centésimas</b>',vis:{type:'frac',n:3,d:10,eq:'= 0,3'}},
+   {t:'El truco de los ceros',d:'Cuenta los <b>ceros</b> del número de abajo.<br>Son las cifras <b>después de la coma</b>.',eg:'10 → 1 cifra · 100 → 2 cifras · 1000 → 3 cifras'}]},
+  {h:'Ejemplo resuelto',items:[
+   {t:'25/100',d:'100 tiene <b>2 ceros</b>.<br>→ 2 cifras después de la coma.',vis:{type:'frac',n:25,d:100,eq:'= 0,25'}},
+   {t:'9/100',d:'100 tiene <b>2 ceros</b>, pero el 9 es una sola cifra.<br>Rellena con un <b>0</b>.',vis:{type:'frac',n:9,d:100,eq:'= 0,09'}}]},
+  {h:'Las fracciones de siempre',items:[
+   {t:'Un medio',d:'1/2 = 5/10 = <b>0,5</b>',eg:'medio euro = 0,50 €'},
+   {t:'Los cuartos',d:'1/4 = <b>0,25</b><br>3/4 = <b>0,75</b>',eg:'un cuarto de euro = 0,25 €',vis:{type:'g100',n:25,cap:'1/4 = 25 de 100 = 0,25'}},
+   {t:'Un quinto',d:'1/5 = 2/10 = <b>0,2</b>'}]}],
  items:[
-  {t:'mc',c:'Fracciones decimales',ins:'¿Qué número decimal es igual a esta fracción?',vis:{type:'frac',n:3,d:10,eq:'= ?'},o:['0,3','3,10','0,03'],a:0,
-   h:'3/10 se lee «tres décimas». 10 tiene un cero: una cifra tras la coma.',e:'3/10 = tres décimas = <b>0,3</b>.'},
-  {t:'wr',num:true,c:'Fracciones decimales',ins:'Escribe esta fracción como número decimal.',vis:{type:'frac',n:7,d:100,eq:'= ?'},acc:['0,07'],ph:'0,…',
-   h:'100 tiene dos ceros: dos cifras después de la coma. Rellena con un 0 delante del 7.',e:'7/100 = siete centésimas = <b>0,07</b>.'},
-  {t:'wr',num:true,c:'Fracciones decimales',ins:'Escribe esta fracción como número decimal.',vis:{type:'frac',n:45,d:100,eq:'= ?'},acc:['0,45'],ph:'0,…',
-   h:'45 centésimas: dos cifras tras la coma.',e:'45/100 = cuarenta y cinco centésimas = <b>0,45</b>.'},
-  {t:'mc',c:'Fracciones decimales',ins:'¿Qué fracción es igual a este número decimal?',big:'0,9',o:['9/10','9/100','1/9'],a:0,
-   h:'0,9 son nueve décimas. ¿Qué denominador tienen las décimas?',e:'0,9 = nueve décimas = <b>9/10</b>.'},
-  {t:'mc',c:'Fracciones decimales',ins:'¿Qué fracción es igual a este número decimal?',big:'0,25',o:['25/10','25/100','2/5'],a:1,
-   h:'Dos cifras tras la coma: son centésimas.',e:'0,25 = veinticinco centésimas = <b>25/100</b> (que es lo mismo que 1/4).'},
-  {t:'wr',num:true,c:'Fracciones y decimales',ins:'Escribe esta fracción como número decimal.',vis:{type:'frac',n:1,d:2,eq:'= ?'},acc:['0,5'],ph:'0,…',
-   h:'Medio euro son 50 céntimos. También: 1/2 = 5/10.',e:'1/2 = 5/10 = <b>0,5</b>.'},
-  {t:'cls',c:'Fracciones y decimales',ins:'Une cada fracción con su número decimal.',cats:['0,25','0,75','0,2'],
+  {t:'mc',c:'Fracciones decimales',ins:'Elige el número decimal.',vis:{type:'frac',n:3,d:10,eq:'= ?'},o:['0,3','3,10','0,03'],a:0,
+   h:'3/10 = tres <b>décimas</b>.<br>10 → 1 cero → 1 cifra tras la coma.',e:'3/10 = <b>0,3</b>'},
+  {t:'wr',num:true,c:'Fracciones decimales',ins:'Escribe el número decimal.',vis:{type:'frac',n:7,d:100,eq:'= ?'},acc:['0,07'],ph:'0,…',
+   h:'100 → <b>2 ceros</b> → 2 cifras.<br>Pon un 0 delante del 7.',e:'7/100 = <b>0,07</b>'},
+  {t:'wr',num:true,c:'Fracciones decimales',ins:'Escribe el número decimal.',vis:{type:'frac',n:45,d:100,eq:'= ?'},acc:['0,45'],ph:'0,…',
+   h:'100 → <b>2 cifras</b> tras la coma.',e:'45/100 = <b>0,45</b>'},
+  {t:'mc',c:'Fracciones decimales',ins:'Elige la fracción.',big:'0,9',o:['9/10','9/100','1/9'],a:0,
+   h:'0,9 = nueve <b>décimas</b>.<br>Las décimas llevan un <b>10</b> abajo.',e:'0,9 = <b>9/10</b>'},
+  {t:'mc',c:'Fracciones decimales',ins:'Elige la fracción.',big:'0,25',o:['25/10','25/100','2/5'],a:1,
+   h:'2 cifras tras la coma → <b>centésimas</b>.<br>Las centésimas llevan un <b>100</b> abajo.',e:'0,25 = <b>25/100</b> (= 1/4)'},
+  {t:'wr',num:true,c:'Fracciones y decimales',ins:'Escribe el número decimal.',vis:{type:'frac',n:1,d:2,eq:'= ?'},acc:['0,5'],ph:'0,…',
+   h:'Medio euro = <b>50 céntimos</b> = 0,50 €',e:'1/2 = 5/10 = <b>0,5</b>'},
+  {t:'cls',c:'Fracciones y decimales',ins:'Une cada fracción con su decimal.',cats:['0,25','0,75','0,2'],
    words:[['1/4','0,25'],['3/4','0,75'],['1/5','0,2']],
-   h:'Piensa en euros: 1/4 de euro son 25 céntimos. Y 1/5 = 2/10.',e:'1/4 = <b>0,25</b> · 3/4 = <b>0,75</b> · 1/5 = 2/10 = <b>0,2</b>.'},
-  {t:'mc',c:'Fracciones y decimales',ins:'¿En qué pareja la fracción y el decimal valen lo mismo?',o:['1/2 y 0,5','1/2 y 1,2','1/2 y 0,12'],a:0,
-   h:'¡Cuidado! No se trata de copiar las cifras con una coma en medio.',e:'1/2 = <b>0,5</b>. Un error frecuente es escribir 1,2: ¡eso es más de una unidad!'},
-  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Escribe la fracción como número decimal.',txt:'En el entrenamiento de voleibol, 7 de cada 10 saques de Lucía entran en el campo. Eso es 7/10 de sus saques.',acc:['0,7'],ph:'0,…',
-   h:'7/10 son siete décimas.',e:'7/10 = <b>0,7</b>. ¡Un 70 % de acierto en el saque!'}
+   h:'Piensa en euros:<br>1/4 de euro = 25 céntimos.',e:'1/4 = <b>0,25</b><br>3/4 = <b>0,75</b><br>1/5 = <b>0,2</b>'},
+  {t:'mc',c:'Fracciones y decimales',ins:'¿Qué pareja vale lo mismo?',o:['1/2 y 0,5','1/2 y 1,2','1/2 y 0,12'],a:0,
+   h:'¡Ojo! No copies las cifras con una coma en medio.',e:'1/2 = <b>0,5</b><br>1,2 es más de una unidad: ¡no puede ser medio!'},
+  {t:'wr',num:true,plan:true,c:'Problemas',ins:'Escribe 7/10 como número decimal.',txt:'Lucía mete <b>7 de cada 10</b> saques.<br>Eso es <b>7/10</b>.',acc:['0,7'],ph:'0,…',
+   h:'7/10 = siete <b>décimas</b>.',e:'7/10 = <b>0,7</b>'}
  ]}
 ];
 const FINAL={id:'fin',n:7,title:'Gran Torneo Final',emoji:'🏐',c:'#f5b301',
- goal:'Resolver problemas de voleibol y baile.',
+ goal:'Problemas de voleibol y baile.',
  intro:[{h:'¡Bienvenida al Gran Torneo!',items:[
-   {t:'Qué te espera',d:'6 retos con problemas de voleibol y de baile.',eg:'tiempos · medidas · precios · puntuaciones'},
-   {t:'Tu plan para cada problema',d:'1. Leo · 2. Busco los datos · 3. Elijo la operación · 4. Calculo · 5. Reviso si tiene sentido.',eg:'Sin prisa: no hay tiempo límite.'}]}],
+   {t:'Qué te espera',d:'<b>6 retos</b> de voleibol y baile.'},
+   {t:'Tu plan para cada problema',d:'1. Leo<br>2. Busco los datos<br>3. Elijo la operación<br>4. Calculo<br>5. Reviso'},
+   {t:'Sin prisa',d:'No hay cronómetro.<br>Tienes <b>pistas</b> y <b>dos intentos</b>.'}]}],
  items:[
-  {t:'wr',num:true,plan:true,c:'Problemas',ins:'¿Cuántas horas jugaron en total?',txt:'En el torneo, el equipo de Lucía jugó 3 partidos. Duraron 1,25 horas, 0,8 horas y 1,1 horas.',acc:['3,15'],ph:'Resultado en horas',
-   h:'Suma las tres duraciones con coma debajo de coma: 1,25 + 0,80 + 1,10.',e:'1,25 + 0,80 + 1,10 = <b>3,15 horas</b>.',vis:{type:'col',n:['1,25','0,8','1,1'],op:'+',hide:true}},
-  {t:'mc',c:'Comparar y ordenar',ins:'¿Qué partido duró más?',txt:'En el torneo, el equipo de Lucía jugó 3 partidos. Duraron 1,25 horas, 0,8 horas y 1,1 horas.',o:['el de 1,25 horas','el de 1,1 horas','el de 0,8 horas'],a:0,
-   h:'Escríbelos con dos decimales: 1,25 · 1,10 · 0,80.',e:'1,25 &gt; 1,10 &gt; 0,80: el más largo fue <b>el de 1,25 horas</b>.'},
-  {t:'mc',plan:true,c:'Problemas',ins:'¿Qué operación resuelve el problema?',txt:'Una coreografía dura 2,45 minutos. En el ensayo, la academia la baila 4 veces seguidas. ¿Cuántos minutos bailan?',o:['2,45 × 4','2,45 + 4','4 − 2,45'],a:0,
-   h:'La misma duración se repite 4 veces.',e:'Repetir 4 veces es multiplicar: <b>2,45 × 4</b>.'},
-  {t:'wr',num:true,plan:true,c:'Multiplicar decimales',ins:'Ahora calcula: ¿cuántos minutos bailan en total?',txt:'Una coreografía dura 2,45 minutos. En el ensayo, la academia la baila 4 veces seguidas.',acc:['9,8'],ph:'Resultado en minutos',
-   h:'245 × 4 = 980. 2,45 tiene 2 decimales.',e:'245 × 4 = 980 → 9,80 = <b>9,8 minutos</b>.',vis:{type:'col',n:['2,45','4'],op:'×',hide:true}},
-  {t:'mc',c:'Redondeo',ins:'Una jugadora alcanza 2,68 m en el remate. Redondeado a la décima, ¿cuánto es?',big:'2,68 m',o:['2,7 m','2,6 m','3 m'],a:0,
-   h:'Mira las centésimas: 8 es 5 o más.',e:'8 centésimas es 5 o más: la décima sube. <b>2,68 → 2,7</b>.'},
-  {t:'cls',c:'Decimales y fracciones',ins:'Une cada decimal con su fracción.',cats:['un medio','un cuarto','tres cuartos'],
+  {t:'wr',num:true,plan:true,c:'Problemas',ins:'¿Cuántas horas jugaron en total?',txt:'El equipo jugó <b>3 partidos</b>.<br>Duraron: <b>1,25 h</b> · <b>0,8 h</b> · <b>1,1 h</b>',acc:['3,15'],ph:'Resultado en horas',
+   h:'En total → <b>sumar</b>.<br>Coma debajo de coma: 1,25 + 0,80 + 1,10',e:'1,25 + 0,80 + 1,10 = <b>3,15 horas</b>',vis:{type:'col',n:['1,25','0,8','1,1'],op:'+',hide:true}},
+  {t:'mc',c:'Comparar y ordenar',ins:'¿Qué partido duró más?',txt:'El equipo jugó <b>3 partidos</b>.<br>Duraron: <b>1,25 h</b> · <b>0,8 h</b> · <b>1,1 h</b>',o:['el de 1,25 h','el de 1,1 h','el de 0,8 h'],a:0,
+   h:'Truco del cero:<br>1,25 · 0,80 · 1,10',e:'1,25 &gt; 1,10 &gt; 0,80<br>→ <b>el de 1,25 h</b>'},
+  {t:'mc',plan:true,c:'Problemas',ins:'¿Qué operación resuelve el problema?',txt:'Una coreografía dura <b>2,45 minutos</b>.<br>La bailan <b>4 veces</b>.<br>¿Cuántos minutos bailan?',o:['2,45 × 4','2,45 + 4','4 − 2,45'],a:0,
+   h:'Lo mismo <b>4 veces</b> → multiplicar.',e:'<b>2,45 × 4</b>'},
+  {t:'wr',num:true,plan:true,c:'Multiplicar decimales',ins:'Calcula: ¿cuántos minutos bailan?',txt:'Una coreografía dura <b>2,45 minutos</b>.<br>La bailan <b>4 veces</b>.',acc:['9,8'],ph:'Resultado en minutos',
+   h:'245 × 4 = 980<br>2,45 tiene <b>2 cifras</b> tras la coma.',e:'980 → 9,80 = <b>9,8 minutos</b>',vis:{type:'col',n:['2,45','4'],op:'×',hide:true}},
+  {t:'mc',c:'Redondeo',ins:'Redondea a la décima.',txt:'Una jugadora salta y llega a <b>2,68 m</b>.',o:['2,7 m','2,6 m','3 m'],a:0,
+   h:'Mira las centésimas: <b>8</b>.<br>¿Es 5 o más?',e:'8 es 5 o más → sube<br><b>2,68 → 2,7 m</b>'},
+  {t:'cls',c:'Fracciones y decimales',ins:'Une cada decimal con su fracción.',cats:['un medio','un cuarto','tres cuartos'],
    words:[['0,5','un medio'],['0,25','un cuarto'],['0,75','tres cuartos']],
-   h:'Piensa en euros: 0,50 € es medio euro; 0,25 € es un cuarto de euro.',e:'0,5 = <b>1/2</b> · 0,25 = <b>1/4</b> · 0,75 = <b>3/4</b>.'}
+   h:'Piensa en euros:<br>0,50 € es medio euro.',e:'0,5 = <b>1/2</b><br>0,25 = <b>1/4</b><br>0,75 = <b>3/4</b>'}
  ]};
 const FREE={
- m1:{ins:'Explica con tus palabras qué es una décima. Pon un ejemplo.',ideas:'Puedes empezar así: «Una décima es… Por ejemplo…»',min:8,self:['He explicado qué es una décima.','He puesto un ejemplo.']},
- m2:{ins:'Escribe con letras cómo se lee el número 3,25.',ideas:'Recuerda: parte entera + «y» + parte decimal con su nombre.',min:4,self:['He nombrado las unidades y las centésimas.']},
- m3:{ins:'Explica cómo sabes qué número es mayor: 0,8 o 0,75.',ideas:'Puedes usar el truco de añadir un cero.',min:8,self:['He explicado los pasos que sigo.']},
- m4:{ins:'Escribe los pasos para sumar 2,5 + 1,25.',ideas:'Usa palabras de orden: primero, después, al final.',min:10,self:['He usado palabras de orden.','He nombrado la regla de la coma.']},
- m6:{ins:'Explica cómo pasas la fracción 3/100 a número decimal.',ideas:'Pista: fíjate en los ceros del 100. Puedes empezar: «Primero…»',min:8,self:['He explicado el truco de los ceros.','He escrito el resultado.']},
- m5:{ins:'Inventa un problema de voleibol o de baile que se resuelva multiplicando un decimal por un número.',ideas:'Ejemplo: «Cada camiseta cuesta 9,50 €. ¿Cuánto cuestan…?»',min:10,self:['Mi problema tiene un número decimal.','Mi problema termina con una pregunta.']}
+ m1:{ins:'Explica qué es una décima. Pon un ejemplo.',ideas:'Puedes empezar así: «Una décima es…»',min:8,self:['He explicado qué es una décima.','He puesto un ejemplo.']},
+ m2:{ins:'Escribe con letras cómo se lee 3,25.',ideas:'Parte entera + «y» + parte decimal con su nombre.',min:4,self:['He escrito las unidades y las centésimas.']},
+ m3:{ins:'Explica cómo sabes qué número es mayor: 0,8 o 0,75.',ideas:'Puedes usar el truco del cero.',min:8,self:['He explicado mis pasos.']},
+ m4:{ins:'Escribe los pasos para sumar 2,5 + 1,25.',ideas:'Usa: primero, después, al final.',min:10,self:['He usado palabras de orden.','He nombrado la regla de la coma.']},
+ m5:{ins:'Inventa un problema de voleibol o de baile. Debe resolverse multiplicando.',ideas:'Ejemplo: «Cada camiseta cuesta 9,50 €. ¿Cuánto cuestan…?»',min:10,self:['Mi problema tiene un número decimal.','Mi problema termina con una pregunta.']},
+ m6:{ins:'Explica cómo pasas 3/100 a número decimal.',ideas:'Fíjate en los ceros del 100. Empieza: «Primero…»',min:8,self:['He explicado el truco de los ceros.','He escrito el resultado.']}
 };
 const ALL=[...MISSIONS,FINAL];
 const RECO={
  'Décimas, centésimas y milésimas':'Colorear cuadrículas de 10 y de 100 y escribir el número que representan.',
  'Lectura y escritura':'Leer en voz alta precios y medidas reales (tickets, etiquetas) diciendo «unidades y décimas/centésimas».',
- 'Valor de posición':'Usar la tabla U , d c m para colocar números cifra a cifra antes de leerlos.',
+ 'Valor de posición':'Usar la tabla U , d c m para colocar los números cifra a cifra antes de leerlos.',
  'Descomponer':'Descomponer precios en euros y céntimos: 3,46 € = 3 € + 0,40 € + 0,06 €.',
  'Comparar y ordenar':'Igualar el número de decimales añadiendo ceros antes de comparar (0,8 = 0,80).',
  'Recta numérica':'Dibujar rectas de 0 a 1 con 10 saltos y situar décimas.',
  'Redondeo':'Practicar la regla del 5 con tiempos y medidas deportivas.',
- 'Sumar y restar':'Hacer cuentas en papel cuadriculado: una cifra por cuadro y la coma en su propia columna.',
+ 'Sumar y restar':'Hacer las cuentas en papel cuadriculado: una cifra por cuadro y la coma en su propia columna.',
  'Estimación':'Antes de calcular, redondear a la unidad para predecir el resultado.',
- 'Problemas':'Seguir siempre el plan: leo, busco datos, elijo operación, calculo y reviso.',
- 'Por 10, 100 y 1000':'Usar tarjetas con la coma recortada para moverla tantos lugares como ceros.',
+ 'Problemas':'Seguir siempre el plan: leo, busco datos, elijo operación, calculo y reviso. Subrayar los datos con color.',
+ 'Por 10, 100 y 1000':'Usar una tarjeta con la coma recortada y moverla tantos lugares como ceros.',
  'Multiplicar decimales':'Multiplicar sin coma, contar los decimales y colocarla al final; comprobar con una estimación.',
  'Fracciones decimales':'Leer la fracción en voz alta («tres centésimas») y escribir tantas cifras tras la coma como ceros tenga el denominador.',
- 'Fracciones y decimales':'Relacionar 1/2, 1/4, 3/4 y 1/5 con euros: 0,50 €, 0,25 €, 0,75 € y 0,20 €.',
- 'Decimales y fracciones':'Relacionar 0,5 / 0,25 / 0,75 con medio, cuarto y tres cuartos de euro.'
+ 'Fracciones y decimales':'Relacionar 1/2, 1/4, 3/4 y 1/5 con euros: 0,50 €, 0,25 €, 0,75 € y 0,20 €.'
 };
 
 /* =================== UTILIDADES =================== */
@@ -449,7 +476,7 @@ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const OKM=['¡Correcto! 🎉','¡Muy bien! 💪','¡Exacto! 🎯','¡Lo tienes! ⭐','¡Genial! 🚀'];
 const OK2=['¡Ahora sí! 👏','¡Bien corregido! 💡','¡Conseguido! ✅'];
-const KO1=['Casi. Mira esta pista y vuelve a intentarlo 💡','Todavía no. Tienes otro intento 🔁'];
+const KO1=['Casi. Lee la pista y prueba otra vez 💡','Todavía no. Tienes otro intento 🔁'];
 const G={pts:0,muted:false,res:{},cur:null};
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
@@ -468,6 +495,11 @@ function medal(p){return p>=90?'🥇':p>=70?'🥈':'🥉'}
 /* =================== APOYOS VISUALES =================== */
 function visHTML(v){
   if(!v)return '';
+  const h=visCore(v);return v.cap?h.replace(/<\/figure>$/,`<figcaption class="cap">${v.cap}</figcaption></figure>`):h;
+}
+function visCore(v){
+  if(v.type==='ladder'){const L=[['1','unidad','sin coma'],['0,1','décima','1 cifra'],['0,01','centésima','2 cifras'],['0,001','milésima','3 cifras']];
+    return `<figure class="vis"><div class="ladder" aria-label="Escalera: unidad, décima, centésima, milésima">${L.map((x,i)=>`${i?'<span class="la">÷10</span>':''}<div class="lb"><b>${x[0]}</b><span>${x[1]}</span><small>${x[2]}</small></div>`).join('')}</div></figure>`}
   if(v.type==='frac'){return `<figure class="vis" aria-label="Fracción ${v.n} partido por ${v.d}"><div class="fracw"><div class="frac"><span>${v.n}</span><span>${v.d}</span></div>${v.eq?`<span class="feq">${v.eq}</span>`:''}</div></figure>`}
   if(v.type==='g10'){let s='';for(let i=0;i<10;i++)s+=`<rect class="${i<v.n?'on':'off'}" x="${4+i*40}" y="4" width="36" height="56" rx="6" stroke-width="2"/>`;return `<figure class="vis vis-c" aria-label="Barra dividida en 10 partes, ${v.n} coloreadas"><svg viewBox="0 0 408 64" width="408">${s}</svg></figure>`}
   if(v.type==='g100'){let s='';for(let i=0;i<100;i++){const r=Math.floor(i/10),c=i%10;s+=`<rect class="${i<v.n?'on':'off'}" x="${3+c*22}" y="${3+r*22}" width="20" height="20" rx="3" stroke-width="1.5"/>`}return `<figure class="vis vis-c" aria-label="Cuadrado de 100 cuadritos, ${v.n} coloreados"><svg viewBox="0 0 226 226" width="226">${s}</svg></figure>`}
@@ -491,7 +523,7 @@ function parseNum(s){s=String(s).replace(/[€\s]|horas?|minutos?|litros?|m\b/gi
 /* =================== PANTALLAS =================== */
 function home(){
   view(`<section class="hero"><div class="kicker">Matemáticas · 6 misiones + torneo final</div><h1>Decimales<br>en Juego</h1>
-  <p>Aprende los números decimales entre redes de voleibol y escenarios de baile. Supera las seis misiones para desbloquear el Gran Torneo Final. Sin prisa: no hay cronómetro y siempre tienes una segunda oportunidad.</p>
+  <p>Aprende los decimales con voleibol y baile.<br>Supera <b>6 misiones</b> y desbloquea el <b>Gran Torneo</b>.<br>Sin prisa: no hay cronómetro.</p>
   <div class="badges" aria-hidden="true">${MISSIONS.map(m=>`<span>${m.emoji}</span>`).join('')}</div>
   <button class="btn gold" id="go" style="min-width:260px">🚀 Empezar la aventura</button></section>`,'#f5b301');
   $('#go').onclick=()=>{SFX.click();map()};
@@ -520,11 +552,11 @@ function confirmReset(){
 function intro(m,page){
   const P=m.intro[page],last=page===m.intro.length-1;
   view(`<div class="card" style="--c:${m.c}"><div class="mnum">${m.id==='fin'?'Torneo final':'Misión '+m.n} · Antes de empezar</div><h2 style="margin:6px 0 4px">${m.emoji} ${P.h}</h2>
-  <div class="exlist">${P.items.map(i=>`<div class="exitem"><div class="t">${i.t}</div><div>${i.d}</div><div class="eg">Ejemplo: ${i.eg}</div>${i.vis?visHTML(i.vis):''}</div>`).join('')}</div>
+  <div class="exlist">${P.items.map(i=>`<div class="exitem"><div class="t">${i.t}</div><div>${i.d}</div>${i.eg?`<div class="eg">Ejemplo: ${i.eg}</div>`:''}${i.vis?visHTML(i.vis):''}</div>`).join('')}</div>
   <div class="dots" aria-hidden="true">${m.intro.map((_,k)=>`<i class="${k===page?'on':''}"></i>`).join('')}</div>
   <div class="acts"><button class="btn ghost" id="say">🔊 Escuchar</button>${page>0?'<button class="btn ghost" id="prev">← Anterior</button>':''}<button class="btn" id="nx">${last?'¡Vamos a por ello! →':'Siguiente →'}</button></div>
   <div class="acts"><button class="btn ghost" id="toMap">🗺️ Volver al mapa</button></div></div>`,m.c);
-  $('#say').onclick=()=>speak(P.h+'. '+P.items.map(i=>i.t+': '+plain(i.d)+' Ejemplo: '+plain(i.eg)).join('. '));
+  $('#say').onclick=()=>speak(P.h+'. '+P.items.map(i=>i.t+': '+plain(i.d)+(i.eg?' Ejemplo: '+plain(i.eg):'')+(i.vis&&i.vis.cap?'. '+i.vis.cap:'')).join('. '));
   if($('#prev'))$('#prev').onclick=()=>intro(m,page-1);
   $('#nx').onclick=()=>{SFX.click();last?start(m):intro(m,page+1)};
   $('#toMap').onclick=map;
@@ -542,12 +574,12 @@ function renderQ(){
   <div class="tools"><button class="sb" id="say">🔊 Repetir instrucción</button><button class="sb" id="hintBtn">💡 Pista</button></div>
   <div id="hintBox"></div>
   ${it.plan?'<div class="plan" aria-label="Plan para resolver problemas"><span>1 📖 Leo</span><span>2 🔎 Busco los datos</span><span>3 🤔 Elijo la operación</span><span>4 ✏️ Calculo</span><span>5 ✅ Reviso</span></div>':''}
-  ${it.txt?`<div class="txt">${esc(it.txt)}</div>`:''}${hasBig}
+  ${it.txt?`<div class="txt">${it.txt}</div>`:''}${hasBig}
   ${it.vis?(it.vis.hide?`<div id="visBox"><button class="sb" id="visBtn" style="margin-bottom:14px">🧮 Ayuda: ver la cuenta colocada</button></div>`:visHTML(it.vis)):''}
   <div id="area"></div><div id="fb"></div>
   <div class="acts" id="acts"><button class="btn" id="chk" disabled>✔ Comprobar</button></div></div>
   <div class="acts noprint"><button class="btn ghost" id="toMap">🗺️ Salir al mapa</button></div></div>`,m.c);
-  $('#say').onclick=()=>speak(it.ins+(it.txt?' '+it.txt:'')+(it.big?' '+plain(it.big):'')+(it.t==='mc'?' Opciones: '+it.o.join('. '):''));
+  $('#say').onclick=()=>speak(it.ins+(it.txt?' '+plain(it.txt.replace(/<br>/g,'. ')):'')+(it.big?' '+plain(it.big):'')+(it.t==='mc'?' Opciones: '+it.o.join('. '):''));
   $('#hintBtn').onclick=()=>{$('#hintBox').innerHTML=`<div class="hint">💡 ${it.h}</div>`};
   $('#toMap').onclick=map;
   $('#chk').onclick=check;
@@ -572,7 +604,7 @@ function build(it){
     $('#clr').onclick=()=>{if(G.cur.locked)return;G.cur.bank=G.cur.bank.concat(G.cur.tgt);G.cur.tgt=[];chips()};
     G.cur.locked=false;chips();
   } else if(it.t==='wr'){
-    a.innerHTML=`<label for="wri" class="ideas">✍️ ${it.num?'Escribe el número (usa la coma « , » para los decimales) y pulsa «Comprobar».':'Escribe tu respuesta y pulsa «Comprobar» (o la tecla Intro).'}</label><input class="wri" id="wri" autocomplete="off" autocapitalize="off" spellcheck="false" ${it.num?'inputmode="decimal"':''} placeholder="${esc(it.ph||'')}">`+(it.num?`<div class="kp" aria-label="Teclado numérico">${['1','2','3','4','5','6','7','8','9','0',',','⌫'].map(k=>`<button type="button" class="${k===','?'cmk':''}" data-k="${k}" aria-label="${k==='⌫'?'Borrar':k===','?'coma':k}">${k}</button>`).join('')}</div>`:'');
+    a.innerHTML=`<label for="wri" class="ideas">✍️ ${it.num?'Escribe el número. Usa la coma ( , ) para los decimales.':'Escribe tu respuesta.'}</label><input class="wri" id="wri" autocomplete="off" autocapitalize="off" spellcheck="false" ${it.num?'inputmode="decimal"':''} placeholder="${esc(it.ph||'')}">`+(it.num?`<div class="kp" aria-label="Teclado numérico">${['1','2','3','4','5','6','7','8','9','0',',','⌫'].map(k=>`<button type="button" class="${k===','?'cmk':''}" data-k="${k}" aria-label="${k==='⌫'?'Borrar':k===','?'coma':k}">${k}</button>`).join('')}</div>`:'');
     const inp=$('#wri');
     a.querySelectorAll('.kp button').forEach(b=>b.onclick=()=>{if(inp.readOnly)return;const k=b.dataset.k;inp.value=k==='⌫'?inp.value.slice(0,-1):inp.value+k;inp.oninput();SFX.click()});inp.oninput=()=>enableChk(inp.value.trim().length>0);inp.onkeydown=e=>{if(e.key==='Enter'&&$('#chk')&&!$('#chk').disabled)check()};
     setTimeout(()=>inp.focus({preventScroll:true}),100);
@@ -630,7 +662,7 @@ function check(){
   } else {
     SFX.ko();G.cur.res.push({c:it.c,p:0,first:false});
     lockAll(it,false);
-    fb.innerHTML=`<div class="fb ko"><span class="h">Esta vez no ha salido. ¡No pasa nada, así se aprende! 💪</span><p><b>La respuesta correcta es:</b> ${esc(answerText(it))}</p><p style="margin-top:6px">${it.e}</p></div>`;
+    fb.innerHTML=`<div class="fb ko"><span class="h">¡No pasa nada! Así se aprende 💪</span><p><b>La respuesta es:</b> ${esc(answerText(it))}</p><p style="margin-top:6px">${it.e}</p></div>`;
     nextBtn(acts);
   }
   setTimeout(()=>fb.scrollIntoView({behavior:'smooth',block:'nearest'}),60);
@@ -673,7 +705,7 @@ function freeWrite(){
   <div class="card"><div class="ins"><p>${esc(F.ins)}</p></div>
   <div class="tools"><button class="sb" id="say">🔊 Repetir instrucción</button></div>
   <p class="ideas">💡 ${esc(F.ideas)}</p>
-  <label for="ft" class="ideas" style="display:block">Este texto no tiene nota: lo leerá tu profesora. Escribe con calma.</label>
+  <label for="ft" class="ideas" style="display:block">Este texto no tiene nota.<br>Lo leerá tu profesora. Escribe con calma.</label>
   <textarea class="free" id="ft" spellcheck="false" placeholder="Escribe aquí…">${esc(G.free[m.id]||'')}</textarea>
   <div class="wc" id="wc"></div>
   <ul class="checks">${F.self.map((s,k)=>`<li><input type="checkbox" id="sc${k}"><label for="sc${k}">${esc(s)}</label></li>`).join('')}<li><input type="checkbox" id="scR"><label for="scR">He releído mi texto y he revisado mayúsculas y puntos.</label></li></ul>
